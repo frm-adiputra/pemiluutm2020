@@ -14,3 +14,24 @@ fields:
     type: varchar(32)
     computeFn: HashedNim
     required: true
+  - name: persetujuan
+    column: Apakah anda mengisi data berikut secara jujur, dan sadar. Jika iya pilih setuju
+    type: varchar(6)
+    required: true
+  - name: fakultas
+    column: Fakultas
+    type: varchar(50)
+    required: true
+  - name: varifikasi
+    column: Tiga huruf terakhir nama ibu
+    type: varchar(32)
+    computeFn: SaltedHash
+    required: true
+  - name: pilihan_presma
+    column: Calon Prema dan Wapresma
+    type: varchar(50)
+    required: true
+  - name: pilihan_dpmf_1
+    column: Calon DPM Dapil Fakultas 1
+    type: varchar(50)
+    required: true
