@@ -1,0 +1,4 @@
+csv: data/Pemilu Raya UTM.csv
+separator: ","
+constraints:
+  - PRIMARY KEY (id)
