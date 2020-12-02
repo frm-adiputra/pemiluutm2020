@@ -1,4 +1,16 @@
 csv: data/Pemilu Raya UTM.csv
 separator: ","
+computePackage: pemiluutm2020/helper
 constraints:
-  - PRIMARY KEY (id)
+  - PRIMARY KEY (nim_hashed)
+fields:
+  - name: waktu
+    column: Timestamp
+    type: timestamp with time zone
+    timeFormat: "2006/01/02 3:04:05 pm MST"
+    required: true
+  - name: nim_hashed
+    column: Username
+    type: varchar(32)
+    computeFn: HashedNim
+    required: true

@@ -2,3 +2,4 @@
 /data/
 .salt
 db.yaml
+g_*.go
