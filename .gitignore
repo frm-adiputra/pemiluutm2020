@@ -1,5 +1,5 @@
 .DS_Store
-/data/
+/data/Pemilu Raya UTM.csv
 .salt
 db.yaml
 g_*.go
