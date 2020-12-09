@@ -1,0 +1,9 @@
+csv: test-data/calon-dpm-ft.csv
+separator: ","
+computePackage: pemiluutm2020/helper
+constraints:
+  - PRIMARY KEY (calon)
+fields:
+  - name: calon
+    type: text
+    required: true

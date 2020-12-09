@@ -1,0 +1,9 @@
+csv: test-data/paslon-presma.csv
+separator: ","
+computePackage: pemiluutm2020/helper
+constraints:
+  - PRIMARY KEY (paslon)
+fields:
+  - name: paslon
+    type: text
+    required: true

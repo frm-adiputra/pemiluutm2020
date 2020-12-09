@@ -22,7 +22,7 @@ const dataVerifikasiFile = "./test-data/data-verifikasi.csv";
 const daftarPilihanFile =
   "./test-data/PEMILIHAN UMUM MAHASISWA ELECTRONIC VOTE UNIVERSITAS TRUNOJOYO MADURA 2020.csv";
 
-const daftarPemilih = gDaftarPemilih.generate(10, {
+const daftarPemilih = gDaftarPemilih.generate(200, {
   nim: (i) => faker.random.alphaNumeric(12),
   prodi: (i) => "-",
   fakultas: (i) => faker.random.arrayElement(fakultasValues),

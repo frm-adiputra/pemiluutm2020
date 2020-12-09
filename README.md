@@ -10,6 +10,14 @@ File-file yang harus di-edit adalah:
 - tables/daftar_pemilih.yaml
 - tables/daftar_pilihan.yaml
 - tables/data_verifikasi.yaml
+- tables/paslon_presma.yaml
+- tables/calon_dpm_fh.yaml
+- tables/calon_dpm_feb.yaml
+- tables/calon_dpm_fp.yaml
+- tables/calon_dpm_ft.yaml
+- tables/calon_dpm_fisib.yaml
+- tables/calon_dpm_fip.yaml
+- tables/calon_dpm_fkis.yaml
 
 Daftar nama fakultas pada file-file berikut ini harus disesuaikan dengan daftar nama
 fakultas yang ada pada daftar pemilih:
@@ -19,6 +27,16 @@ fakultas yang ada pada daftar pemilih:
 Filter batas waktu harus diperbarui pada file:
 
 - views/vw_pilihan.yaml
+
+Daftar nama paslon presma dan calon DPM harus disesuaikan dengan data aktual
+
+- data/calon-dpm-fh.csv
+- data/calon-dpm-feb.csv
+- data/calon-dpm-fp.csv
+- data/calon-dpm-ft.csv
+- data/calon-dpm-fisib.csv
+- data/calon-dpm-fip.csv
+- data/calon-dpm-fkis.csv
 
 __Pengecekan terhadap data hasil pemungutan suara__
 
@@ -96,7 +114,7 @@ Data nama ibu dari SIAKAD hanya akan diambil tiga huruf terakhir (tanda baca dan
 11. Jalankan aplikasi penghitung. Pastikan tidak ada error.
 12. Jalankan script untuk melakukan pembersihan inputan data. Data pilihan pemilih dan file _salt_ dihapus agar kerahasiaan pemilih tetap terjaga (data ini tetap ada pada database hanya saja sudah di-hash). Data sumber verifikasi dihapus untuk menjaga data pribadi pemilih tetap aman (data ini tetap ada pada database hanya saja sudah dalam bentuk yang sulit ditebak isi data aslinya).
 13. Hidupkan koneksi internet
-14. Commit data ke Github, agar hasil tersimpan di forum publik. Data yang di-commit sudah dipastikan tidak membuka rahasia dan data privacy.
+14. Commit data ke Github, agar hasil tersimpan di forum publik. Data yang di-commit sudah dipastikan tidak membuka rahasia dan data privacy. JANGAN LUPA pada .gitignore hapus /out/
 15. Hapus data dari Google Forms untuk menjaga kerahasiaan suara.
 16. Matikan koneksi internet
 17. Jalankan aplikasi penampil
