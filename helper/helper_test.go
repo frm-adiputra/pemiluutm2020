@@ -148,3 +148,50 @@ func TestJenisEmailError(t *testing.T) {
 		}
 	}
 }
+
+func TestSingkatanFakultas(t *testing.T) {
+	params := []string{
+		"Fakultas Hukum",
+		"Fakultas Ekonomi dan Bisnis",
+		"Fakultas Pertanian",
+		"Fakultas Teknik",
+		"Fakultas Ilmu Sosial dan Ilmu Budaya",
+		"Fakultas Ilmu Pendidikan",
+		"Fakultas Keislaman",
+	}
+	expecteds := []string{
+		"FH",
+		"FEB",
+		"FP",
+		"FT",
+		"FISIB",
+		"FIP",
+		"FKis",
+	}
+
+	for i := 0; i < len(params); i++ {
+		v := params[i]
+		expected := expecteds[i]
+
+		found, err := SingkatanFakultas(v)
+		if err != nil {
+			t.Errorf("Should not be error on params '%s': %s", v, err)
+		} else {
+			if found != expected {
+				t.Errorf("On input '%s', found '%s', expected '%s'", v, found, expected)
+			}
+		}
+	}
+}
+
+func TestSingkatanFakultasError(t *testing.T) {
+	params := []string{
+		"Any fakultas",
+	}
+	for _, v := range params {
+		_, err := SingkatanFakultas(v)
+		if err == nil {
+			t.Errorf("Should be returning error on params '%s'", v)
+		}
+	}
+}

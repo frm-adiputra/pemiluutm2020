@@ -79,6 +79,29 @@ func AlphabetOnlyLast3UpperSaltedHash(v string) (string, error) {
 	return SaltedHash(s1)
 }
 
+// SingkatanFakultas mengkonversi nama fakultas menjadi singkatannya
+func SingkatanFakultas(v string) (string, error) {
+	up := strings.ToUpper(v)
+	switch up {
+	case "FAKULTAS HUKUM":
+		return "FH", nil
+	case "FAKULTAS EKONOMI DAN BISNIS":
+		return "FEB", nil
+	case "FAKULTAS PERTANIAN":
+		return "FP", nil
+	case "FAKULTAS TEKNIK":
+		return "FT", nil
+	case "FAKULTAS ILMU SOSIAL DAN ILMU BUDAYA":
+		return "FISIB", nil
+	case "FAKULTAS ILMU PENDIDIKAN":
+		return "FIP", nil
+	case "FAKULTAS KEISLAMAN":
+		return "FKis", nil
+	default:
+		return "", fmt.Errorf("Unknown fakultas: %s", v)
+	}
+}
+
 // alphabetOnly akan memberikan return value berupa string yang hanya berisi
 // huruf saja dari string `v` yang menjadi inputannya.
 func alphabetOnly(v string) (string, error) {

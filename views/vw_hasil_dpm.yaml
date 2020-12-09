@@ -1,0 +1,23 @@
+dependsOn:
+  - ref_fakultas
+  - vw_pilihan
+export: out/vw_hasil_dpm.csv
+sql: |
+  WITH
+  
+  -- Penghitungan setiap fakultas
+
+  counting_fh AS (
+    SELECT
+      fakultas_tercatat,
+      pilihan_dpm_fh AS pilihan_dpm,
+      COUNT(*) AS jumlah_suara
+    FROM tahap1.vw_pilihan
+    WHERE
+      suara_dpm_sah = TRUE AND
+      fakultas_tercatat = 'FH'
+    GROUP BY fakultas_tercatat, pilihan_dpm_fh
+    ORDER BY pilihan_dpm DESC
+  )
+
+  SELECT * FROM counting_fh

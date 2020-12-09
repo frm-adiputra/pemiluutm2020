@@ -1,0 +1,9 @@
+csv: data/ref_fakultas.csv
+separator: ","
+computePackage: pemiluutm2020/helper
+constraints:
+  - PRIMARY KEY (fakultas)
+fields:
+  - name: fakultas
+    type: varchar(5)
+    required: true

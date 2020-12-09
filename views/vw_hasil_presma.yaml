@@ -1,0 +1,15 @@
+dependsOn:
+  - vw_pilihan
+export: out/vw_hasil_presma.csv
+sql: |
+  WITH counting AS (
+    SELECT
+      pilihan_presma,
+      COUNT(*) AS jumlah_suara
+    FROM tahap1.vw_pilihan
+    WHERE suara_presma_sah = TRUE
+    GROUP BY pilihan_presma
+    ORDER BY pilihan_presma
+  )
+
+  SELECT * FROM counting

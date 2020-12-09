@@ -1,8 +1,11 @@
 csv: test-data/PEMILIHAN UMUM MAHASISWA ELECTRONIC VOTE UNIVERSITAS TRUNOJOYO MADURA 2020.csv
 separator: ","
 computePackage: pemiluutm2020/helper
+dependsOn:
+  - ref_fakultas
 constraints:
   - PRIMARY KEY (nim_hashed, waktu_str)
+  - FOREIGN KEY (fakultas) REFERENCES tahap1.ref_fakultas (fakultas)
 fields:
   - name: waktu_str
     column: Cap waktu
@@ -24,7 +27,8 @@ fields:
     required: true
   - name: fakultas
     column: Asal Fakultas
-    type: text
+    type: varchar(5)
+    computeFn: SingkatanFakultas
     required: true
   - name: input_verifikasi_hashed
     column: Masukkan tiga huruf terakhir nama ibu

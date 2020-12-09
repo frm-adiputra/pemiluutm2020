@@ -1,8 +1,11 @@
 csv: test-data/daftar-pemilih.csv
 separator: ","
 computePackage: pemiluutm2020/helper
+dependsOn:
+  - ref_fakultas
 constraints:
   - PRIMARY KEY (nim_hashed)
+  - FOREIGN KEY (fakultas) REFERENCES tahap1.ref_fakultas (fakultas)
 fields:
   - name: nim_hashed
     column: nim
@@ -15,5 +18,6 @@ fields:
     required: true
   - name: fakultas
     column: fakultas
-    type: text
+    type: varchar(5)
+    computeFn: SingkatanFakultas
     required: true
