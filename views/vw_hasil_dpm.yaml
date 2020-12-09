@@ -7,16 +7,18 @@ sql: |
   
   -- Penghitungan setiap fakultas
 
+  -- Gunakan input_fakultas sebagai filter agar penghitungan suara tidak sah
+  -- karena tidak terdaftar menjadi akurat
   counting_fh AS (
     SELECT
-      fakultas_tercatat,
+      input_fakultas AS fakultas,
       pilihan_dpm_fh AS pilihan_dpm,
       COUNT(*) AS jumlah_suara
     FROM tahap1.vw_pilihan
     WHERE
       suara_dpm_sah = TRUE AND
-      fakultas_tercatat = 'FH'
-    GROUP BY fakultas_tercatat, pilihan_dpm_fh
+      input_fakultas = 'FH'
+    GROUP BY input_fakultas, pilihan_dpm_fh
     ORDER BY pilihan_dpm DESC
   )
 
