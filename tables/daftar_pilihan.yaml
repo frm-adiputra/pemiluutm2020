@@ -1,0 +1,58 @@
+csv: test-data/PEMILIHAN UMUM MAHASISWA ELECTRONIC VOTE UNIVERSITAS TRUNOJOYO MADURA 2020.csv
+separator: ","
+computePackage: pemiluutm2020/helper
+constraints:
+  - PRIMARY KEY (nim_hashed, waktu_str)
+fields:
+  - name: waktu_str
+    column: Cap waktu
+    type: text
+    required: true
+  - name: nim_hashed
+    column: Nama pengguna
+    type: varchar(32)
+    computeFn: HashedEmailToNim
+    required: true
+  - name: jenis_email
+    column: Nama pengguna
+    type: varchar(13)
+    computeFn: JenisEmail
+    required: true
+  - name: persetujuan
+    column: SAYA MENGGUNAKAN HAK PILIH DALAM PEMILU E-VOTE SECARA SADAR DAN TANPA TEKANAN DARI SIAPAPUN.
+    type: varchar(6)
+    required: true
+  - name: fakultas
+    column: Asal Fakultas
+    type: text
+    required: true
+  - name: input_verifikasi_hashed
+    column: Masukkan tiga huruf terakhir nama ibu
+    type: varchar(32)
+    computeFn: Last3UpperSaltedHash
+    required: true
+  - name: pilihan_presma
+    column: Silahkan pilih calon Presiden dan Wakil Presiden Mahasiswa 2020
+    type: text
+    required: true
+  - name: pilihan_dpm_fh
+    column: Silahkan pilih calon DPM Dapil Fakultas Hukum
+    type: text
+  - name: pilihan_dpm_feb
+    column: Silahkan pilih calon DPM Dapil Fakultas Ekonomi dan Bisnis
+    type: text
+  - name: pilihan_dpm_fp
+    column: Silahkan pilih calon DPM Dapil Fakultas Pertanian
+    type: text
+  - name: pilihan_dpm_ft
+    column: Silahkan pilih calon DPM Dapil Fakultas Teknik
+    type: text
+  - name: pilihan_dpm_fisib
+    column: Silahkan pilih calon DPM Dapil Fakultas Ilmu Sosial dan Ilmu Budaya
+    type: text
+  - name: pilihan_dpm_fip
+    column: Silahkan pilih calon DPM Dapil Fakultas Ilmu Pendidikan
+    type: text
+  - name: pilihan_dpm_fkis
+    column: Silahkan pilih calon DPM Dapil Fakultas Keislaman
+    type: text

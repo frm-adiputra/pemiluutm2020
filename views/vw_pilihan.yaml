@@ -1,0 +1,132 @@
+dependsOn:
+  - daftar_pilihan
+  - daftar_pemilih
+  - data_verifikasi
+export: out/vw_pilihan.csv
+sql: |
+  WITH convert_to_timestamp AS (
+    SELECT
+      nim_hashed,
+      -- Konversi tipe data waktu dari string ke timestamp
+      TO_TIMESTAMP(waktu_str, 'YYYY/MM/DD HH:MI:SS AM') AS waktu,
+      jenis_email,
+      persetujuan,
+      fakultas,
+      input_verifikasi_hashed,
+      pilihan_presma,
+      pilihan_dpm_fh,
+      pilihan_dpm_feb,
+      pilihan_dpm_fp,
+      pilihan_dpm_ft,
+      pilihan_dpm_fisib,
+      pilihan_dpm_fip,
+      pilihan_dpm_fkis
+    FROM tahap1.daftar_pilihan
+  ),
+
+  latest_data AS (
+    SELECT
+      nim_hashed,
+      MAX(waktu) AS waktu
+    FROM convert_to_timestamp
+    GROUP BY nim_hashed
+  ),
+
+  validasi AS (
+    SELECT
+      A.waktu,
+
+      -- dalam_waktu_pemungutan akan bernilai TRUE apabila waktu pengisian form
+      -- oleh pemilih berada dalam batas waktu yang ditentukan
+      A.waktu BETWEEN
+        TO_TIMESTAMP('2020/12/18 8:00:00 AM', 'YYYY/MM/DD HH:MI:SS AM') AND
+        TO_TIMESTAMP('2020/12/18 1:00:00 PM', 'YYYY/MM/DD HH:MI:SS AM')
+      AS dalam_waktu_pemungutan,
+
+      A.nim_hashed,
+      B.jenis_email,
+      B.persetujuan,
+      B.fakultas AS input_fakultas,
+      C.fakultas AS fakultas_tercatat,
+
+      -- terdaftar akan bernilai TRUE apabila NIM yang bersangkutan terdaftar
+      -- dalam daftar pemilih dan email yang digunakan adalah email student.trunojoyo.ac.id
+      (C.nim_hashed IS NOT NULL AND B.jenis_email = 'student') AS terdaftar,
+
+      -- fakultas_benar akan bernilai TRUE apabila data fakultas yang diinputkan
+      -- pemilih pada Google Forms sesuai dengan yang ada pada data
+      -- daftar pemilih.
+      B.fakultas = C.fakultas AS fakultas_benar,
+      
+      B.input_verifikasi_hashed,
+      D.sumber_verifikasi_hashed,
+
+      -- verified akan bernilai TRUE apabila data verifikasi yang diinputkan
+      -- pemilih sama dengan data yang ada pada sumber data verifikasi
+      B.input_verifikasi_hashed = D.sumber_verifikasi_hashed AS verified,
+
+      -- dapil_sesuai akan bernilai TRUE apabila pemilih memberikan pilihannya
+      -- pada dapil yang sesuai dengan fakultas pemilih yang tercatat di daftar
+      -- pemilih.
+      --
+      -- Kasus berikut ini KEMUNGKINAN KECIL terjadi karena sudah dibatasi pada
+      -- Google Forms.
+      -- Apabila ternyata pemilih selain memilih pada dapil fakultas juga
+      -- memilih pada dapil lainnya, maka pilihan pada dapil lainnya tersebut
+      -- akan diabaikan.
+      CASE
+        WHEN C.fakultas = 'FH' THEN B.pilihan_dpm_fh IS NOT NULL
+        WHEN C.fakultas = 'FEB' THEN B.pilihan_dpm_feb IS NOT NULL
+        WHEN C.fakultas = 'FP' THEN B.pilihan_dpm_fp IS NOT NULL
+        WHEN C.fakultas = 'FT' THEN B.pilihan_dpm_ft IS NOT NULL
+        WHEN C.fakultas = 'FISIB' THEN B.pilihan_dpm_fisib IS NOT NULL
+        WHEN C.fakultas = 'FIP' THEN B.pilihan_dpm_fip IS NOT NULL
+        WHEN C.fakultas = 'FKis' THEN B.pilihan_dpm_fkis IS NOT NULL
+      END AS dapil_sesuai,
+      
+      B.pilihan_presma,
+      B.pilihan_dpm_fh,
+      B.pilihan_dpm_feb,
+      B.pilihan_dpm_fp,
+      B.pilihan_dpm_ft,
+      B.pilihan_dpm_fisib,
+      B.pilihan_dpm_fip,
+      B.pilihan_dpm_fkis
+    FROM latest_data A
+    LEFT JOIN convert_to_timestamp B ON (A.nim_hashed = B.nim_hashed AND A.waktu = B.waktu)
+    LEFT JOIN tahap1.daftar_pemilih C ON (A.nim_hashed = C.nim_hashed)
+    LEFT JOIN tahap1.data_verifikasi D ON (A.nim_hashed = D.nim_hashed)
+  )
+
+  SELECT
+    CASE
+        WHEN A.terdaftar = FALSE THEN FALSE
+        WHEN A.verified = FALSE THEN FALSE
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN FALSE
+        ELSE TRUE
+    END AS suara_presma_sah,
+
+    CASE
+        WHEN A.terdaftar = FALSE THEN 'Tidak terdaftar dalam daftar pemilih'
+        WHEN A.verified = FALSE THEN 'Data verifikasi tidak sesuai'
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN 'Di luar waktu pemungutan suara'
+        ELSE NULL
+    END AS alasan_suara_presma_tidak_sah,
+
+    CASE
+        WHEN A.terdaftar = FALSE THEN FALSE
+        WHEN A.verified = FALSE THEN FALSE
+        WHEN A.fakultas_benar = FALSE THEN FALSE
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN FALSE
+        ELSE TRUE
+    END AS suara_dpm_sah,
+
+    CASE
+        WHEN A.terdaftar = FALSE THEN 'Tidak terdaftar dalam daftar pemilih'
+        WHEN A.verified = FALSE THEN 'Data verifikasi tidak sesuai'
+        WHEN A.fakultas_benar = FALSE THEN 'Fakultas tidak sesuai'
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN 'Di luar waktu pemungutan suara'
+        ELSE NULL
+    END AS alasan_suara_dpm_tidak_sah,
+    A.*
+  FROM validasi A

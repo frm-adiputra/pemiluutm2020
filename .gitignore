@@ -3,3 +3,4 @@
 .salt
 db.yaml
 g_*.go
+/node_modules/

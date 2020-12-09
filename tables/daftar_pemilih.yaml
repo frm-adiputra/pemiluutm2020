@@ -1,0 +1,19 @@
+csv: test-data/daftar-pemilih.csv
+separator: ","
+computePackage: pemiluutm2020/helper
+constraints:
+  - PRIMARY KEY (nim_hashed)
+fields:
+  - name: nim_hashed
+    column: nim
+    type: varchar(32)
+    computeFn: SaltedHash
+    required: true
+  - name: prodi
+    column: prodi
+    type: text
+    required: true
+  - name: fakultas
+    column: fakultas
+    type: text
+    required: true
