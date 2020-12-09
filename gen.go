@@ -1,6 +1,4 @@
 // +build ignore
-// This program generates codes for data processing.
-// It must be invoked by running go generate
 
 package main
 
@@ -13,6 +11,7 @@ import (
 	"github.com/frm-adiputra/csv2postgres"
 )
 
+// fungsi ini akan dieksekusi melalui perintah `go generate`.
 func main() {
 	if len(os.Args) > 1 {
 		if os.Args[1] == "salt" {
@@ -27,6 +26,8 @@ func main() {
 	}
 }
 
+// generateConversionCode menggenerate kode program yang akan digunakan untuk
+// meng-import data ke database.
 func generateConversionCode() error {
 	g := csv2postgres.Generator{
 		BaseImportPath: "pemiluutm2020",
@@ -40,6 +41,8 @@ func exitWithError(err error) {
 	os.Exit(1)
 }
 
+// generateSalt menggenerate salt secara acak dan menyimpannya ke dalam file
+// `.salt`.
 func generateSalt() error {
 	n, err := randomNum()
 	if err != nil {
@@ -55,6 +58,7 @@ func generateSalt() error {
 	return nil
 }
 
+// randomNum menggenerate nilai acak yang akan digunakan sebagai salt.
 func randomNum() (string, error) {
 	n, err := rand.Prime(rand.Reader, 64)
 	if err != nil {
