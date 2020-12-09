@@ -8,24 +8,21 @@ import (
 	"strings"
 )
 
-// HashedEmailToNim mengkonversikan data email menjadi NIM kemudian di-hash.
-func HashedEmailToNim(s string) (string, error) {
-	nim, err := EmailToNim(s)
+// NimToEmail mengkonversikan data NIM menjadi email dengan menambahkan
+// '@student.trunojoyo.ac.id'
+func NimToEmail(s string) (string, error) {
+	return s + "@student.trunojoyo.ac.id", nil
+}
+
+// NimToEmailSaltedHash mengkonversikan data NIM menjadi email dengan
+// menambahkan '@student.trunojoyo.ac.id', kemudian ditambahi salt dan di-hash.
+func NimToEmailSaltedHash(s string) (string, error) {
+	nim, err := NimToEmail(s)
 	if err != nil {
 		return "", err
 	}
 
 	return SaltedHash(nim)
-}
-
-// EmailToNim mengkonversikan data email menjadi NIM
-func EmailToNim(s string) (string, error) {
-	idx := strings.Index(s, "@")
-	if idx == -1 {
-		return "", errors.New("character '@' not found")
-	}
-
-	return s[0:idx], nil
 }
 
 // JenisEmail memberikan return value "student" jika dan hanya jika email

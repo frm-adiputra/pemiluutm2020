@@ -2,12 +2,12 @@ csv: test-data/data-verifikasi.csv
 separator: ","
 computePackage: pemiluutm2020/helper
 constraints:
-  - PRIMARY KEY (nim_hashed)
+  - PRIMARY KEY (nim_email_hashed)
 fields:
-  - name: nim_hashed
+  - name: nim_email_hashed
     column: nim
     type: varchar(32)
-    computeFn: SaltedHash
+    computeFn: NimToEmailSaltedHash
     required: true
   - name: sumber_verifikasi_hashed
     column: nama ibu

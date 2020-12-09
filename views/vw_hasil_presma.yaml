@@ -1,15 +1,56 @@
 dependsOn:
   - vw_pilihan
+  - paslon_presma
 export: out/vw_hasil_presma.csv
 sql: |
-  WITH counting AS (
+  WITH
+  
+  suara_sah AS (
     SELECT
-      pilihan_presma,
-      COUNT(*) AS jumlah_suara
-    FROM tahap1.vw_pilihan
-    WHERE suara_presma_sah = TRUE
-    GROUP BY pilihan_presma
-    ORDER BY pilihan_presma
+      A.paslon AS suara,
+      TRUE AS sah,
+      (
+        SELECT
+          COUNT(*)
+        FROM tahap1.vw_pilihan B
+        WHERE
+          B.suara_presma_sah = TRUE AND
+          B.pilihan_presma = A.paslon
+      ) AS jumlah
+    FROM tahap1.paslon_presma A
+    ORDER BY A.paslon
+  ),
+
+  alasan AS (
+    SELECT UNNEST(ARRAY[
+      'Tidak terdaftar dalam daftar pemilih',
+      'Data verifikasi tidak sesuai',
+      'Di luar waktu pemungutan suara'
+    ]) AS alasan
+  ),
+
+  suara_tidak_sah AS (
+    SELECT
+      A.alasan AS suara,
+      FALSE AS sah,
+      (
+        SELECT
+          COUNT(*)
+        FROM tahap1.vw_pilihan B
+        WHERE
+          B.suara_presma_sah = FALSE AND
+          B.alasan_suara_presma_tidak_sah = A.alasan
+      ) AS jumlah
+    FROM alasan A
+  ),
+
+  summary_no_total AS (
+    SELECT * FROM suara_sah
+    UNION ALL
+    SELECT * FROM suara_tidak_sah
   )
 
-  SELECT * FROM counting
+  SELECT
+    A.*,
+    CAST((A.jumlah * 100) AS FLOAT) / (SELECT COUNT(*) FROM tahap1.vw_pilihan) AS persentase
+  FROM summary_no_total A

@@ -6,7 +6,7 @@ export: out/vw_pilihan.csv
 sql: |
   WITH convert_to_timestamp AS (
     SELECT
-      nim_hashed,
+      nim_email_hashed,
       -- Konversi tipe data waktu dari string ke timestamp
       TO_TIMESTAMP(waktu_str, 'YYYY/MM/DD HH:MI:SS AM') AS waktu,
       jenis_email,
@@ -26,10 +26,10 @@ sql: |
 
   latest_data AS (
     SELECT
-      nim_hashed,
+      nim_email_hashed,
       MAX(waktu) AS waktu
     FROM convert_to_timestamp
-    GROUP BY nim_hashed
+    GROUP BY nim_email_hashed
   ),
 
   validasi AS (
@@ -43,15 +43,16 @@ sql: |
         TO_TIMESTAMP('2020/12/18 1:00:00 PM', 'YYYY/MM/DD HH:MI:SS AM')
       AS dalam_waktu_pemungutan,
 
-      A.nim_hashed,
+      A.nim_email_hashed,
       B.jenis_email,
       B.persetujuan,
       B.fakultas AS input_fakultas,
       C.fakultas AS fakultas_tercatat,
 
-      -- terdaftar akan bernilai TRUE apabila NIM yang bersangkutan terdaftar
-      -- dalam daftar pemilih dan email yang digunakan adalah email student.trunojoyo.ac.id
-      (C.nim_hashed IS NOT NULL AND B.jenis_email = 'student') AS terdaftar,
+      -- terdaftar akan bernilai TRUE apabila email/NIM yang bersangkutan
+      -- terdaftar dalam daftar pemilih dan email yang digunakan memiliki domain
+      -- student.trunojoyo.ac.id
+      (C.nim_email_hashed IS NOT NULL AND B.jenis_email = 'student') AS terdaftar,
 
       -- fakultas_benar akan bernilai TRUE apabila data fakultas yang diinputkan
       -- pemilih pada Google Forms sesuai dengan yang ada pada data
@@ -93,9 +94,9 @@ sql: |
       B.pilihan_dpm_fip,
       B.pilihan_dpm_fkis
     FROM latest_data A
-    LEFT JOIN convert_to_timestamp B ON (A.nim_hashed = B.nim_hashed AND A.waktu = B.waktu)
-    LEFT JOIN tahap1.daftar_pemilih C ON (A.nim_hashed = C.nim_hashed)
-    LEFT JOIN tahap1.data_verifikasi D ON (A.nim_hashed = D.nim_hashed)
+    LEFT JOIN convert_to_timestamp B ON (A.nim_email_hashed = B.nim_email_hashed AND A.waktu = B.waktu)
+    LEFT JOIN tahap1.daftar_pemilih C ON (A.nim_email_hashed = C.nim_email_hashed)
+    LEFT JOIN tahap1.data_verifikasi D ON (A.nim_email_hashed = D.nim_email_hashed)
   )
 
   SELECT

@@ -12,7 +12,7 @@ dependsOn:
   - calon_dpm_fip
   - calon_dpm_fkis
 constraints:
-  - PRIMARY KEY (nim_hashed, waktu_str)
+  - PRIMARY KEY (nim_email_hashed, waktu_str)
   - FOREIGN KEY (fakultas) REFERENCES tahap1.ref_fakultas (fakultas)
   - FOREIGN KEY (pilihan_presma) REFERENCES tahap1.paslon_presma (paslon)
   - FOREIGN KEY (pilihan_dpm_fh) REFERENCES tahap1.calon_dpm_fh (calon)
@@ -27,10 +27,10 @@ fields:
     column: Cap waktu
     type: text
     required: true
-  - name: nim_hashed
+  - name: nim_email_hashed
     column: Nama pengguna
     type: varchar(32)
-    computeFn: HashedEmailToNim
+    computeFn: SaltedHash
     required: true
   - name: jenis_email
     column: Nama pengguna

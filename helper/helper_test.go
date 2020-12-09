@@ -87,6 +87,19 @@ func TestEmailToNim(t *testing.T) {
 	}
 }
 
+func TestNimToEmail(t *testing.T) {
+	param := "123456789012"
+	expected := "123456789012@student.trunojoyo.ac.id"
+	found, err := NimToEmail(param)
+	if err != nil {
+		t.Errorf("Should not be error on params '%s': %s", param, err)
+	} else {
+		if found != expected {
+			t.Errorf("On input '%s', found '%s', expected '%s'", param, found, expected)
+		}
+	}
+}
+
 func TestEmailToNimError(t *testing.T) {
 	params := []string{
 		"",

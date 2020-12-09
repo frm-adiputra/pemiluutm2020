@@ -81,18 +81,17 @@ dalam daftar pemilih
 
 #### NIM akan di-hash
 
-NIM akan di-hash dan hasil hash-nya yang akan disimpan dalam database.
-NIM tidak akan pernah disimpan dalam database.
+Data email yang berisi NIM akan di-hash dan hasil hash-nya yang akan disimpan dalam database.
+Data NIM dan email tidak akan pernah disimpan dalam database.
 Proses hash juga akan menerapkan _salt_.
-Nilai hash dari suatu NIM tidak akan diketahui tanpa juga mengetahui nilai dari _salt_.
+Nilai hash dari suatu email tidak akan diketahui tanpa juga mengetahui nilai dari _salt_.
 Nilai _salt_ akan di-generate otomatis sesaat sebelum data disimpan ke database.
 Nilai _salt_ disimpan pada file `.salt` dan harus segera dihapus (tanpa melihat isinya) sesaat setelah data disimpan ke database.
 
-- Melalui kode dalam NIM akan dikonversi menjadi data Fakultas dan Prodi
-
 ### Penghilangan data privacy
 
-Data nama ibu dari SIAKAD hanya akan diambil tiga huruf terakhir (tanda baca dan spasi dihilangkan)
+Data nama ibu dari SIAKAD hanya akan diambil tiga huruf terakhir (tanda baca dan spasi dihilangkan).
+Tiga huruf terakhir tersebut juga akan ditambahi _salt_ dan di-hash.
 
 ### Penghapusan data input
 

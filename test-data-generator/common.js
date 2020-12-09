@@ -10,6 +10,7 @@ export const fakultasValues = [
   "Fakultas Keislaman",
 ];
 export const startDate = new Date(2020, 11, 18, 8, 0, 0);
+export const middleDate = new Date(2020, 11, 18, 10, 0, 0);
 export const endDate = new Date(2020, 11, 18, 13, 0, 0);
 
 export const formatDate = (v) =>
