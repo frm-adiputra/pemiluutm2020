@@ -80,19 +80,19 @@ func AlphabetOnlyLast3UpperSaltedHash(v string) (string, error) {
 func SingkatanFakultas(v string) (string, error) {
 	up := strings.ToUpper(v)
 	switch up {
-	case "FAKULTAS HUKUM":
+	case "FAKULTAS HUKUM", "HUKUM":
 		return "FH", nil
-	case "FAKULTAS EKONOMI DAN BISNIS":
+	case "FAKULTAS EKONOMI DAN BISNIS", "EKONOMI DAN BISNIS":
 		return "FEB", nil
-	case "FAKULTAS PERTANIAN":
+	case "FAKULTAS PERTANIAN", "PERTANIAN":
 		return "FP", nil
-	case "FAKULTAS TEKNIK":
+	case "FAKULTAS TEKNIK", "TEKNIK":
 		return "FT", nil
-	case "FAKULTAS ILMU SOSIAL DAN ILMU BUDAYA":
+	case "FAKULTAS ILMU SOSIAL DAN ILMU BUDAYA", "ILMU SOSIAL DAN ILMU BUDAYA":
 		return "FISIB", nil
-	case "FAKULTAS ILMU PENDIDIKAN":
+	case "FAKULTAS ILMU PENDIDIKAN", "ILMU PENDIDIKAN":
 		return "FIP", nil
-	case "FAKULTAS KEISLAMAN":
+	case "FAKULTAS KEISLAMAN", "KEISLAMAN":
 		return "FKis", nil
 	default:
 		return "", fmt.Errorf("Unknown fakultas: %s", v)

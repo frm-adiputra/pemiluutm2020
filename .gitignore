@@ -1,5 +1,6 @@
 .DS_Store
 /data/Pemilu Raya UTM.csv
+/data/daftar-pemilih.csv
 .salt
 db.yaml
 g_*.go

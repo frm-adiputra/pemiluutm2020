@@ -1,11 +1,11 @@
-const columns = ["nim", "prodi", "fakultas"];
+const columns = ["NIM", "PRODI", "FAKULTAS"];
 const generate = (count, { nim, prodi, fakultas }) => {
   const records = [];
   for (let i = 0; i < count; i++) {
     records.push({
-      nim: nim(i),
-      prodi: prodi(i),
-      fakultas: fakultas(i),
+      NIM: nim(i),
+      PRODI: prodi(i),
+      FAKULTAS: fakultas(i),
     });
   }
   return records

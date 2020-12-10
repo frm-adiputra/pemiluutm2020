@@ -8,16 +8,16 @@ constraints:
   - FOREIGN KEY (fakultas) REFERENCES tahap1.ref_fakultas (fakultas)
 fields:
   - name: nim_email_hashed
-    column: nim
+    column: NIM
     type: varchar(32)
     computeFn: NimToEmailSaltedHash
     required: true
   - name: prodi
-    column: prodi
+    column: PRODI
     type: text
     required: true
   - name: fakultas
-    column: fakultas
+    column: FAKULTAS
     type: varchar(5)
     computeFn: SingkatanFakultas
     required: true
