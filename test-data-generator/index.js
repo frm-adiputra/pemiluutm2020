@@ -165,11 +165,13 @@ const generateSah = (count) => {
 let allDaftarPemilih = [];
 let allDataVerifikasi = [];
 let allDaftarPilihan = [];
-for (let i = 0; i < fakultasValues.length; i++) {
-  const o = generateBasedOnFixturesMatrix(fakultasValues[i]);
-  allDaftarPemilih.push(...o.daftarPemilih);
-  allDataVerifikasi.push(...o.dataVerifikasi);
-  allDaftarPilihan.push(...o.daftarPilihan);
+for (let times = 0; times < 10; times++) {
+  for (let i = 0; i < fakultasValues.length; i++) {
+    const o = generateBasedOnFixturesMatrix(fakultasValues[i]);
+    allDaftarPemilih.push(...o.daftarPemilih);
+    allDataVerifikasi.push(...o.dataVerifikasi);
+    allDaftarPilihan.push(...o.daftarPilihan);
+  }
 }
 
 try {
