@@ -71,8 +71,8 @@ Berikut ini adalah urutan pengecekan untuk pemilihan DPM:
 tercatat pada daftar pemilih dan alamat email menggunakan domain
 student.trunojoyo.ac.id
 2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
-3. Pengisi Google Forms mengisikan data fakultas sesuai dengan yang tercatat
-dalam daftar pemilih
+3. Pengisi Google Forms mengisikan pilihan DPM pada dapil yang benar (fakultas sesuai dengan yang tercatat
+dalam daftar pemilih)
 4. Pengisi mengisikan Google Forms dalam rentang waktu yang telah ditentukan
 
 ## Usaha menjaga kerahasiaan

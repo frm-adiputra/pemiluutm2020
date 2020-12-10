@@ -117,7 +117,7 @@ sql: |
     CASE
         WHEN A.terdaftar = FALSE THEN FALSE
         WHEN A.verified = FALSE THEN FALSE
-        WHEN A.fakultas_benar = FALSE THEN FALSE
+        WHEN A.dapil_sesuai = FALSE THEN FALSE
         WHEN A.dalam_waktu_pemungutan = FALSE THEN FALSE
         ELSE TRUE
     END AS suara_dpm_sah,
@@ -125,7 +125,7 @@ sql: |
     CASE
         WHEN A.terdaftar = FALSE THEN 'Tidak terdaftar dalam daftar pemilih'
         WHEN A.verified = FALSE THEN 'Data verifikasi tidak sesuai'
-        WHEN A.fakultas_benar = FALSE THEN 'Fakultas tidak sesuai'
+        WHEN A.dapil_sesuai = FALSE THEN 'Dapil DPM tidak sesuai'
         WHEN A.dalam_waktu_pemungutan = FALSE THEN 'Di luar waktu pemungutan suara'
         ELSE NULL
     END AS alasan_suara_dpm_tidak_sah,
