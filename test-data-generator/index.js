@@ -62,13 +62,13 @@ const generateBasedOnFixturesMatrix = (fakultas) => {
   const chooseDPMValue = (fakultasDapil, i) => {
     if (zigZagMod(i, 64)) {
       if (fakultas === fakultasDapil) {
-        faker.random.arrayElement(dpmValues);
+        return faker.random.arrayElement(dpmValues);
       } else {
         return "";
       }
     } else {
       if (dapilList[i] === fakultasDapil) {
-        faker.random.arrayElement(dpmValues);
+        return faker.random.arrayElement(dpmValues);
       } else {
         return "";
       }
@@ -170,6 +170,7 @@ for (let i = 0; i < fakultasValues.length; i++) {
   allDaftarPemilih.push(...o.daftarPemilih);
   allDataVerifikasi.push(...o.dataVerifikasi);
   allDaftarPilihan.push(...o.daftarPilihan);
+  break;
 }
 
 try {
