@@ -170,7 +170,6 @@ for (let i = 0; i < fakultasValues.length; i++) {
   allDaftarPemilih.push(...o.daftarPemilih);
   allDataVerifikasi.push(...o.dataVerifikasi);
   allDaftarPilihan.push(...o.daftarPilihan);
-  break;
 }
 
 try {
