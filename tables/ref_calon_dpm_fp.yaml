@@ -1,4 +1,4 @@
-csv: test-data/calon-dpm-fh.csv
+csv: test-data/ref-calon-dpm-fp.csv
 separator: ","
 computePackage: pemiluutm2020/helper
 constraints:

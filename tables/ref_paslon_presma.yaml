@@ -1,9 +1,9 @@
-csv: test-data/calon-dpm-fp.csv
+csv: test-data/ref-paslon-presma.csv
 separator: ","
 computePackage: pemiluutm2020/helper
 constraints:
-  - PRIMARY KEY (calon)
+  - PRIMARY KEY (paslon)
 fields:
-  - name: calon
+  - name: paslon
     type: text
     required: true

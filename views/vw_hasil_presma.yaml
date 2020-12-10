@@ -1,6 +1,6 @@
 dependsOn:
   - vw_pilihan
-  - paslon_presma
+  - ref_paslon_presma
 export: out/vw_hasil_presma.csv
 sql: |
   WITH
@@ -17,7 +17,7 @@ sql: |
           B.suara_presma_sah = TRUE AND
           B.pilihan_presma = A.paslon
       ) AS jumlah
-    FROM tahap1.paslon_presma A
+    FROM tahap1.ref_paslon_presma A
     ORDER BY A.paslon
   ),
 

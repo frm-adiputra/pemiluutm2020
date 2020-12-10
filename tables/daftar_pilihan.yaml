@@ -3,25 +3,25 @@ separator: ","
 computePackage: pemiluutm2020/helper
 dependsOn:
   - ref_fakultas
-  - paslon_presma
-  - calon_dpm_fh
-  - calon_dpm_feb
-  - calon_dpm_fp
-  - calon_dpm_ft
-  - calon_dpm_fisib
-  - calon_dpm_fip
-  - calon_dpm_fkis
+  - ref_paslon_presma
+  - ref_calon_dpm_fh
+  - ref_calon_dpm_feb
+  - ref_calon_dpm_fp
+  - ref_calon_dpm_ft
+  - ref_calon_dpm_fisib
+  - ref_calon_dpm_fip
+  - ref_calon_dpm_fkis
 constraints:
   - PRIMARY KEY (nim_email_hashed, waktu_str)
   - FOREIGN KEY (fakultas) REFERENCES tahap1.ref_fakultas (fakultas)
-  - FOREIGN KEY (pilihan_presma) REFERENCES tahap1.paslon_presma (paslon)
-  - FOREIGN KEY (pilihan_dpm_fh) REFERENCES tahap1.calon_dpm_fh (calon)
-  - FOREIGN KEY (pilihan_dpm_feb) REFERENCES tahap1.calon_dpm_feb (calon)
-  - FOREIGN KEY (pilihan_dpm_fp) REFERENCES tahap1.calon_dpm_fp (calon)
-  - FOREIGN KEY (pilihan_dpm_ft) REFERENCES tahap1.calon_dpm_ft (calon)
-  - FOREIGN KEY (pilihan_dpm_fisib) REFERENCES tahap1.calon_dpm_fisib (calon)
-  - FOREIGN KEY (pilihan_dpm_fip) REFERENCES tahap1.calon_dpm_fip (calon)
-  - FOREIGN KEY (pilihan_dpm_fkis) REFERENCES tahap1.calon_dpm_fkis (calon)
+  - FOREIGN KEY (pilihan_presma) REFERENCES tahap1.ref_paslon_presma (paslon)
+  - FOREIGN KEY (pilihan_dpm_fh) REFERENCES tahap1.ref_calon_dpm_fh (calon)
+  - FOREIGN KEY (pilihan_dpm_feb) REFERENCES tahap1.ref_calon_dpm_feb (calon)
+  - FOREIGN KEY (pilihan_dpm_fp) REFERENCES tahap1.ref_calon_dpm_fp (calon)
+  - FOREIGN KEY (pilihan_dpm_ft) REFERENCES tahap1.ref_calon_dpm_ft (calon)
+  - FOREIGN KEY (pilihan_dpm_fisib) REFERENCES tahap1.ref_calon_dpm_fisib (calon)
+  - FOREIGN KEY (pilihan_dpm_fip) REFERENCES tahap1.ref_calon_dpm_fip (calon)
+  - FOREIGN KEY (pilihan_dpm_fkis) REFERENCES tahap1.ref_calon_dpm_fkis (calon)
 fields:
   - name: waktu_str
     column: Cap waktu
