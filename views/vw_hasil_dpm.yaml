@@ -1,25 +1,140 @@
 dependsOn:
   - ref_fakultas
+  - ref_calon_dpm_fh
+  - ref_calon_dpm_feb
+  - ref_calon_dpm_fp
+  - ref_calon_dpm_ft
+  - ref_calon_dpm_fisib
+  - ref_calon_dpm_fip
+  - ref_calon_dpm_fkis
   - vw_pilihan
 export: out/vw_hasil_dpm.csv
 sql: |
   WITH
-  
-  -- Penghitungan setiap fakultas
 
-  -- Gunakan input_fakultas sebagai filter agar penghitungan suara tidak sah
-  -- karena tidak terdaftar menjadi akurat
-  counting_fh AS (
+  all_calon AS (
+    SELECT 'FH' AS fakultas, calon FROM tahap1.ref_calon_dpm_fh
+    UNION ALL
+    SELECT 'FEB' AS fakultas, calon FROM tahap1.ref_calon_dpm_feb
+    UNION ALL
+    SELECT 'FP' AS fakultas, calon FROM tahap1.ref_calon_dpm_fp
+    UNION ALL
+    SELECT 'FT' AS fakultas, calon FROM tahap1.ref_calon_dpm_ft
+    UNION ALL
+    SELECT 'FISIB' AS fakultas, calon FROM tahap1.ref_calon_dpm_fisib
+    UNION ALL
+    SELECT 'FIP' AS fakultas, calon FROM tahap1.ref_calon_dpm_fip
+    UNION ALL
+    SELECT 'FKis' AS fakultas, calon FROM tahap1.ref_calon_dpm_fkis
+  ),
+
+  -- Menggabungkan kolom-kolom pilihan DPM menjadi satu, dengan cara menampilkan
+  -- hanya kolom pilihan DPM yang bersesuaian dengan dapil pemilih.
+  -- Sebagai contoh: untuk mahasiswa FH maka kolom pilihan_dpm adalah isi dari
+  -- kolom pilihan_dpm_fh
+  pilihan_normalized AS (
     SELECT
-      input_fakultas AS fakultas,
-      pilihan_dpm_fh AS pilihan_dpm,
-      COUNT(*) AS jumlah_suara
-    FROM tahap1.vw_pilihan
-    WHERE
-      suara_dpm_sah = TRUE AND
-      input_fakultas = 'FH'
-    GROUP BY input_fakultas, pilihan_dpm_fh
-    ORDER BY pilihan_dpm DESC
+      A.nim_email_hashed,
+      A.suara_dpm_sah,
+      A.alasan_suara_dpm_tidak_sah,
+      A.fakultas_tercatat AS fakultas,
+      CASE
+        WHEN A.fakultas_tercatat = 'FH' THEN A.pilihan_dpm_fh
+        WHEN A.fakultas_tercatat = 'FEB' THEN A.pilihan_dpm_feb
+        WHEN A.fakultas_tercatat = 'FP' THEN A.pilihan_dpm_fp
+        WHEN A.fakultas_tercatat = 'FT' THEN A.pilihan_dpm_ft
+        WHEN A.fakultas_tercatat = 'FISIB' THEN A.pilihan_dpm_fisib
+        WHEN A.fakultas_tercatat = 'FIP' THEN A.pilihan_dpm_fip
+        WHEN A.fakultas_tercatat = 'FKis' THEN A.pilihan_dpm_fkis
+        ELSE NULL
+      END AS pilihan_dpm
+    FROM tahap1.vw_pilihan A
+  ),
+
+  suara_sah AS (
+    SELECT
+      A.fakultas,
+      A.calon AS suara,
+      TRUE AS sah,
+      (
+        SELECT
+          COUNT(*)
+        FROM pilihan_normalized B
+        WHERE
+          B.fakultas = A.fakultas AND
+          B.suara_dpm_sah = TRUE AND
+          B.pilihan_dpm = A.calon
+      ) AS jumlah
+    FROM all_calon A
+    ORDER BY A.fakultas, A.calon
+  ),
+
+  alasan AS (
+    SELECT UNNEST(ARRAY[
+      -- Tidak ikut ditampilkan di sini, karena bila tidak ada dalam daftar
+      -- pemilih maka tidak dapat diverifikasi pemilih tersebut berasal dari
+      -- fakultas mana
+      -- '(a) Tidak terdaftar dalam daftar pemilih',
+      '(b) Data verifikasi tidak sesuai',
+      '(c) Dapil DPM tidak sesuai',
+      '(d) Di luar waktu pemungutan suara'
+    ]) AS alasan
+  ),
+
+  fak AS (
+    SELECT UNNEST(ARRAY[
+      'FH',
+      'FEB',
+      'FP',
+      'FT',
+      'FISIB',
+      'FIP',
+      'FKis'
+    ]) AS fakultas
+  ),
+
+  alasan_fakultas AS (
+    SELECT A.fakultas, B.alasan FROM fak A, alasan B
+  ),
+
+  suara_tidak_sah AS (
+    SELECT
+      A.fakultas,
+      A.alasan AS suara,
+      FALSE AS sah,
+      (
+        SELECT
+          COUNT(*)
+        FROM pilihan_normalized B
+        WHERE
+          B.fakultas = A.fakultas AND
+          B.suara_dpm_sah = FALSE AND
+          B.alasan_suara_dpm_tidak_sah = A.alasan
+      ) AS jumlah
+    FROM alasan_fakultas A
+  ),
+
+  summary_no_total AS (
+    SELECT * FROM suara_sah
+    UNION ALL
+    SELECT * FROM suara_tidak_sah
   )
 
-  SELECT * FROM counting_fh
+  (SELECT
+    A.*,
+    CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas), 0) AS persentase
+  FROM summary_no_total A
+  ORDER BY A.fakultas, A.sah DESC, A.suara)
+
+  UNION ALL
+
+  (SELECT
+    NULL AS fakultas,
+    '(a) Tidak terdaftar dalam daftar pemilih' AS suara,
+    FALSE AS sah,
+    (
+      SELECT COUNT(*)
+      FROM pilihan_normalized
+      WHERE alasan_suara_dpm_tidak_sah = '(a) Tidak terdaftar dalam daftar pemilih'
+    ) AS jumlah,
+    NULL AS persentase)

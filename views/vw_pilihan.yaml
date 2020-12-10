@@ -108,9 +108,9 @@ sql: |
     END AS suara_presma_sah,
 
     CASE
-        WHEN A.terdaftar = FALSE THEN 'Tidak terdaftar dalam daftar pemilih'
-        WHEN A.verified = FALSE THEN 'Data verifikasi tidak sesuai'
-        WHEN A.dalam_waktu_pemungutan = FALSE THEN 'Di luar waktu pemungutan suara'
+        WHEN A.terdaftar = FALSE THEN '(a) Tidak terdaftar dalam daftar pemilih'
+        WHEN A.verified = FALSE THEN '(b) Data verifikasi tidak sesuai'
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN '(c) Di luar waktu pemungutan suara'
         ELSE NULL
     END AS alasan_suara_presma_tidak_sah,
 
@@ -123,10 +123,10 @@ sql: |
     END AS suara_dpm_sah,
 
     CASE
-        WHEN A.terdaftar = FALSE THEN 'Tidak terdaftar dalam daftar pemilih'
-        WHEN A.verified = FALSE THEN 'Data verifikasi tidak sesuai'
-        WHEN A.dapil_sesuai = FALSE THEN 'Dapil DPM tidak sesuai'
-        WHEN A.dalam_waktu_pemungutan = FALSE THEN 'Di luar waktu pemungutan suara'
+        WHEN A.terdaftar = FALSE THEN '(a) Tidak terdaftar dalam daftar pemilih'
+        WHEN A.verified = FALSE THEN '(b) Data verifikasi tidak sesuai'
+        WHEN A.dapil_sesuai = FALSE THEN '(c) Dapil DPM tidak sesuai'
+        WHEN A.dalam_waktu_pemungutan = FALSE THEN '(d) Di luar waktu pemungutan suara'
         ELSE NULL
     END AS alasan_suara_dpm_tidak_sah,
     A.*
