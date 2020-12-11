@@ -1,119 +1,107 @@
-# Catatan
+# Penghitung Suara | Pemilu Mahasiswa UTM
 
-## PENTING
+Aplikasi ini adalah aplikasi penghitung suara yang digunakan dalam Pemilu mahasiswa UTM 2020.
 
-__Yang harus dilakukan sebelum rilis ke publik__
+Aplikasi ini dikembangkan dengan menggunakan tool [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres).
+Sehingga pada dasarnya, aplikasi ini adalah aplikasi untuk membuat _table_ dan _view_ pada PostgreSQL serta mengimpor data ke dalamnya.
 
-Ganti referensi ke file dalam folder `test-data` menjadi ke folder `data`.
-File-file yang harus di-edit adalah:
+Untuk melakukan penghitungan suara, aplikasi ini akan melakukan hal-hal sebagai berikut:
 
-- tables/daftar_pemilih.yaml
-- tables/daftar_pilihan.yaml
-- tables/data_verifikasi.yaml
-- tables/paslon_presma.yaml
-- tables/calon_dpm_fh.yaml
-- tables/calon_dpm_feb.yaml
-- tables/calon_dpm_fp.yaml
-- tables/calon_dpm_ft.yaml
-- tables/calon_dpm_fisib.yaml
-- tables/calon_dpm_fip.yaml
-- tables/calon_dpm_fkis.yaml
+1. Inisiasi: generate _salt_, generate kode program untuk mengolah database.
+1. Membuat berbagai _table_ dan _view_ pada database.
+2. Mengimpor berbagai data pemilu ke dalam database.
 
-Daftar nama fakultas pada file-file berikut ini harus disesuaikan dengan daftar nama
-fakultas yang ada pada daftar pemilih:
+Hasil penghitungan akan dapat dilihat melalui berbagai _view_ yang ada pada
+database.
 
-- views/vw_pilihan.yaml
+## Requirements
 
-Filter batas waktu harus diperbarui pada file:
+- Go 1.15+
+- Node 14+
+- PostgreSQL 9+
 
-- views/vw_pilihan.yaml
+## Setup
 
-Daftar nama paslon presma dan calon DPM harus disesuaikan dengan data aktual
+Clone repository ini.
+Buat file `db.yaml` pada project root.
+File `db.yaml` berisi konfigurasi koneksi database, dengan contoh pengisiannya dapat dilihat pada file `db.example.yaml`.
 
-- data/calon-dpm-fh.csv
-- data/calon-dpm-feb.csv
-- data/calon-dpm-fp.csv
-- data/calon-dpm-ft.csv
-- data/calon-dpm-fisib.csv
-- data/calon-dpm-fip.csv
-- data/calon-dpm-fkis.csv
+Secara default, aplikasi ini berjalan dalam mode testing.
+Untuk menjalankan dalam mode production, baca penjelasan pada bab [Production](#production).
 
-__Pengecekan terhadap data hasil pemungutan suara__
+### Testing/Ujicoba
 
-- Adakah yang tidak menyetujui pernyataan?
-- Berapa banyak yang data verifikasinya tidak sesuai?
-- Berapa banyak yang melakukan pengisian di luar waktu pemungutan?
--
-
-## Install dependencies
+Selama berjalan dalam mode testing, aplikasi ini akan menggunakan data-data yang ada pada folder `test-data`.
+Folder `test-data` pada awalnya tidak akan berisi seluruh data yang dibutuhkan untuk testing.
+Untuk meng-generate data testing pada folder tersebut, jalankan perintah berikut:
 
 ```bash
-go get github.com/frm-adiputra/csv2postgres
+# instalasi dependency
+# (membutuhkan koneksi internet untuk mengunduh dependency)
+npm install
+
+# generate data ujicoba
+npm run gen
 ```
 
-## Penentuan sahnya suara
+### Production
 
-Secara berurutan dilakukan pengecekan kondisi pada data, jika menemukan kondisi
-yang tidak terpenuhi maka suara dianggap tidak sah dan kodisi berikutnya tidak
-akan dicek.
+Untuk menjalankan dalam mode production ada beberapa hal yang harus dilakukan.
 
-Berikut ini adalah urutan pengecekan untuk pemilihan Presma:
+Dalam folder `data` sediakan file-file berikut ini:
 
-1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
-tercatat pada daftar pemilih dan alamat email menggunakan domain
-student.trunojoyo.ac.id
-2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
-3. Pengisi mengisikan Google Forms dilakukan dalam rentang waktu yang telah ditentukan
+- `daftar-pemilih.csv`: berisi daftar pemilih
+- `data-verifikasi.csv`: berisi data yang dibutuhkan untuk memverifikasi pemilih
+- `PEMILIHAN UMUM MAHASISWA ELECTRONIC VOTE UNIVERSITAS TRUNOJOYO MADURA 2020.csv`: berisi data respon yang diunduh dari Google Forms
+- `ref-paslon-presma.csv`: berisi daftar paslon presma
+- `ref-calon-dpm-fh.csv`: berisi daftar calon DPM dapil FH
+- `ref-calon-dpm-feb.csv`: berisi daftar calon DPM dapil FEB
+- `ref-calon-dpm-fp.csv`: berisi daftar calon DPM dapil FP
+- `ref-calon-dpm-ft.csv`: berisi daftar calon DPM dapil FT
+- `ref-calon-dpm-fisib.csv`: berisi daftar calon DPM dapil FISIB
+- `ref-calon-dpm-fip.csv`: berisi daftar calon DPM dapil FIP
+- `ref-calon-dpm-fkis.csv`: berisi daftar calon DPM dapil FKis
 
-Berikut ini adalah urutan pengecekan untuk pemilihan DPM:
+Edit file-file berikut ini dengan cara mengganti isian pada field `csv` yang awalnya merujuk ke file yang ada dalam folder `test-data` dengan merujuk ke file yang ada dalam folder `data`:
 
-1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
-tercatat pada daftar pemilih dan alamat email menggunakan domain
-student.trunojoyo.ac.id
-2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
-3. Pengisi Google Forms mengisikan pilihan DPM pada dapil yang benar (fakultas sesuai dengan yang tercatat
-dalam daftar pemilih)
-4. Pengisi mengisikan Google Forms dalam rentang waktu yang telah ditentukan
+- `tables/daftar_pemilih.yaml`
+- `tables/daftar_pilihan.yaml`
+- `tables/data_verifikasi.yaml`
+- `tables/ref_paslon_presma.yaml`
+- `tables/ref_calon_dpm_fh.yaml`
+- `tables/ref_calon_dpm_feb.yaml`
+- `tables/ref_calon_dpm_fp.yaml`
+- `tables/ref_calon_dpm_ft.yaml`
+- `tables/ref_calon_dpm_fisib.yaml`
+- `tables/ref_calon_dpm_fip.yaml`
+- `tables/ref_calon_dpm_fkis.yaml`
 
-## Usaha menjaga kerahasiaan
+Setelah melakukan hal-hal di atas, silahkan melanjutkan ke proses inisiasi.
 
-### Penghilangan identitas
+## Inisiasi
 
-#### NIM akan di-hash
+Sebelum melakukan langkah inisiasi, ikuti terlebih dahulu langkah-langkah yang ada pada bab [Setup](#setup) sesuai dengan mode eksekusi yang diinginkan (testing atau production).
 
-Data email yang berisi NIM akan di-hash dan hasil hash-nya yang akan disimpan dalam database.
-Data NIM dan email tidak akan pernah disimpan dalam database.
-Proses hash juga akan menerapkan _salt_.
-Nilai hash dari suatu email tidak akan diketahui tanpa juga mengetahui nilai dari _salt_.
-Nilai _salt_ akan di-generate otomatis sesaat sebelum data disimpan ke database.
-Nilai _salt_ disimpan pada file `.salt` dan harus segera dihapus (tanpa melihat isinya) sesaat setelah data disimpan ke database.
+```bash
+# Kedua perintah berikut ini membutuhkan koneksi internet
+# untuk mengunduh dependency
 
-### Penghilangan data privacy
+# Meng-generate kode program untuk mengolah database
+go generate .
 
-Data nama ibu dari SIAKAD hanya akan diambil tiga huruf terakhir (tanda baca dan spasi dihilangkan).
-Tiga huruf terakhir tersebut juga akan ditambahi _salt_ dan di-hash.
+# Perintah ini akan mengeksekusi program tanpa benar-benar
+# melakukan impor data ke database.
+# Pastikan perintah ini berjalan tanpa ada error
+go run . --dry-run allUp
+```
 
-### Penghapusan data input
+## Impor Data
 
-- Setelah data pilihan diolah, data input pemungutan suara akan dihapus untuk menjaga kerahasiaan pemilih
-- Data dasar validasi tetap dipertahankan, sampai tahap terakhir pemilu raya
+Jalankan perintah berikut ini untuk mengimpor data ke dalam database.
+Apabila database telah berisi data maka data yang ada akan dihapus terlebih dahulu.
 
-## Live stream
+```bash
+go run . allUp
+```
 
-1. Sebelum eksekusi, tunjukkan bahwa database tidak berisi tabel, dengan kata lain masih kosong.
-2. Clone aplikasi penghitung
-3. Clone aplikasi penampil
-4. Download data dari Google Form. Letakkan dalam aplikasi penghitung. Insights yang ditampilkan pada Google Forms bukanlah hasil akhir, karena belum diverifikasi.
-5. Letakkan data daftar pemilih dan letakkan dalam aplikasi penghitung.
-6. Setup koneksi database aplikasi penghitung
-7. Setup koneksi database aplikasi penampil
-8. Jalankan dan tunjukkan aplikasi penampil hasil penghitungan suara yang masih error karena tidak bisa mengakses database.
-9. Inisiasi aplikasi penghitung
-10. Matikan koneksi internet
-11. Jalankan aplikasi penghitung. Pastikan tidak ada error.
-12. Jalankan script untuk melakukan pembersihan inputan data. Data pilihan pemilih dan file _salt_ dihapus agar kerahasiaan pemilih tetap terjaga (data ini tetap ada pada database hanya saja sudah di-hash). Data sumber verifikasi dihapus untuk menjaga data pribadi pemilih tetap aman (data ini tetap ada pada database hanya saja sudah dalam bentuk yang sulit ditebak isi data aslinya).
-13. Hidupkan koneksi internet
-14. Commit data ke Github, agar hasil tersimpan di forum publik. Data yang di-commit sudah dipastikan tidak membuka rahasia dan data privacy. JANGAN LUPA pada .gitignore hapus /out/
-15. Hapus data dari Google Forms untuk menjaga kerahasiaan suara.
-16. Matikan koneksi internet
-17. Jalankan aplikasi penampil
+Setelah menjalankan perintah di atas, semua data akan berada dalam database dan hasil penghitungan dapat dilihat melalui berbagai _view_ yang ada.
