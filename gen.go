@@ -20,15 +20,15 @@ func main() {
 			}
 		}
 	} else {
-		if err := generateConversionCode(); err != nil {
+		if err := generateDDLCode(); err != nil {
 			exitWithError(err)
 		}
 	}
 }
 
-// generateConversionCode menggenerate kode program yang akan digunakan untuk
+// generateDDLCode menggenerate kode program yang akan digunakan untuk
 // meng-import data ke database.
-func generateConversionCode() error {
+func generateDDLCode() error {
 	g := csv2postgres.Generator{
 		BaseImportPath: "pemiluutm2020",
 		DefaultSchema:  "tahap1",
