@@ -14,6 +14,15 @@ Untuk melakukan penghitungan suara, aplikasi ini akan melakukan hal-hal sebagai 
 Hasil penghitungan akan dapat dilihat melalui berbagai _view_ yang ada pada
 database.
 
+## Dokumen-Dokumen Pendukung
+
+Dokumen ini adalah petunjuk penggunaan dari aplikasi penghitung suara.
+Dokumen-dokumen lainnya terkait aplikasi ini dapat dilihat melalui link berikut:
+
+- [Analisis](docs/analisis.md)
+- [Rancangan](docs/rancangan.md)
+- [Prosedur Live Streaming](docs/live-streaming.md)
+
 ## Requirements
 
 - Go 1.15+
