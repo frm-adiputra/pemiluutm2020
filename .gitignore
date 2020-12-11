@@ -5,4 +5,11 @@
 db.yaml
 g_*.go
 /node_modules/
-/out/
+/internal/
+
+/out/*
+!/out/.gitkeep
+
+/test-data/daftar-pemilih.csv
+/test-data/data-verifikasi.csv
+/test-data/PEMILIHAN UMUM MAHASISWA ELECTRONIC VOTE UNIVERSITAS TRUNOJOYO MADURA 2020.csv
