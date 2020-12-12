@@ -38,7 +38,7 @@ Oleh karena itu, nilai _salt_ akan dibangkitkan oleh aplikasi sebelum tool [frm-
 Nilai _salt_ dibangkitkan oleh aplikasi dan disimpan dalam file `.salt`.
 File `.salt` ini tidak boleh dilihat isinya dan harus segera dihapus setelah proses impor data dilakukan.
 
-Penentuan data-data yang akan diberi _salt_ dan di-_hash_ ada pada konfigurasi impor data (dalam file YAMML pada direktori `tables`).
+Penentuan data-data yang akan diberi _salt_ dan di-_hash_ ada pada konfigurasi impor data (dalam file YAML pada direktori `tables`).
 Penggunaan _salt_ dan _hash_ memanfaatkan fitur `computeFn` yang disediakan oleh tool [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres).
 Melalui fitur `computeFn` tersebut data yang berasal dari CSV akan dikonversikan ke dalam bentuk nilai _hash_-nya.
 Kode program yang digunakan sebagai fungsi `computeFn` dapat dilihat pada file `helper/helper.go` beserta kode testingnya pada file `helper/helper_test.go`.
