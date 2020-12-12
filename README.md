@@ -22,7 +22,6 @@ Dokumen-dokumen lainnya terkait aplikasi ini dapat dilihat melalui link berikut:
 - [Analisis](docs/analisis.md)
 - [Rancangan](docs/rancangan.md)
 - [Implementasi](docs/implementasi.md)
-- [Prosedur Live Streaming](docs/live-streaming.md)
 
 ## Requirements
 
