@@ -12,7 +12,8 @@ Berikut ini adalah direktori-direktori yang mengelompokkan file-file program ini
 - `data`: direktori ini berisi file sumber-sumber data dalam format CSV yang akan diimpor ke dalam database.
 - `docs`: direktori ini berisi file dokumentasi dalam format Markdown.
 - `helper`: direktori ini berisi kode program untuk membantu tool [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres) dalam melakukan konversi data sebelum data disimpan ke database. Kode program dalam direktori ini menggunakan bahasa pemrograman Go. Silahkan dibaca komentar-komentar yang ada dalam kode program tersebut untuk mendapatkan penjelasan lebih detail.
-- `internal`: direktori ini berisi kode-kode program yang di-_generate_ oleh [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres) untuk melakukan pengelolaan database dan impor data. Direktori ini tidak akan ada sebelum langkah inisiasi yang dijelaskan pada [Petunjuk Penggunaan | Inisiasi](../README.md#inisiasi).
+- `internal`: direktori ini berisi kode-kode program yang di-_generate_ oleh [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres) untuk melakukan pengelolaan database dan impor data. Direktori ini hanya akan ada setelah langkah inisiasi dilakukan (baca penjelasan dalam [Petunjuk Penggunaan | Inisiasi](../README.md#inisiasi)).
+- `node_modules`: direktori ini berisi _library_/_package_ yang dibutuhkan oleh program generator data untuk testing. Direktori ini hanya akan ada setelah langkah testing/ujicoba dilakukan (baca penjelasan dalam [Petunjuk Penggunaan | Testing/Ujicoba](../README.md#testing-ujicoba))
 
 ## Implementasi Impor Data
 
