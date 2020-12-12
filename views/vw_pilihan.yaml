@@ -97,6 +97,8 @@ sql: |
     LEFT JOIN tahap1.data_verifikasi D ON (A.nim_email_hashed = D.nim_email_hashed)
   )
 
+  -- Implementasi penentuan suara sah dan tidak sah (beserta alasan tidak
+  -- sahnya)
   SELECT
     CASE
         WHEN A.terdaftar = FALSE THEN FALSE

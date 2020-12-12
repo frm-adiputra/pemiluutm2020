@@ -12,6 +12,8 @@ export: out/vw_hasil_dpm.csv
 sql: |
   WITH
 
+  -- Data helper untuk daftar calon DPM setiap fakultas (dikumpulkan dalam satu
+  -- view)
   all_calon AS (
     SELECT 'FH' AS fakultas, calon FROM tahap1.ref_calon_dpm_fh
     UNION ALL
@@ -51,6 +53,7 @@ sql: |
     FROM tahap1.vw_pilihan A
   ),
 
+  -- Penghitungan (aggregasi) suara sah untuk setiap fakultas
   suara_sah AS (
     SELECT
       A.fakultas,
@@ -69,6 +72,7 @@ sql: |
     ORDER BY A.fakultas, A.calon
   ),
 
+  -- Data helper untuk alasan tidak sah
   alasan AS (
     SELECT UNNEST(ARRAY[
       -- Tidak ikut ditampilkan di sini, karena bila tidak ada dalam daftar
@@ -81,6 +85,7 @@ sql: |
     ]) AS alasan
   ),
 
+  -- Data helper untuk data fakultas
   fak AS (
     SELECT UNNEST(ARRAY[
       'FH',
@@ -93,10 +98,12 @@ sql: |
     ]) AS fakultas
   ),
 
+  -- Kombinasi data fakultas dan alasan tidak sah
   alasan_fakultas AS (
     SELECT A.fakultas, B.alasan FROM fak A, alasan B
   ),
 
+  -- Penghitungan (aggregasi) suara tidak sah untuk setiap fakultas
   suara_tidak_sah AS (
     SELECT
       A.fakultas,
@@ -114,19 +121,21 @@ sql: |
     FROM alasan_fakultas A
   ),
 
-  summary_no_total AS (
+  -- Penggabungan view suara sah dan tidak sah
+  gabungan AS (
     SELECT * FROM suara_sah
     UNION ALL
     SELECT * FROM suara_tidak_sah
   )
 
+  -- Penghitungan persentase
   (SELECT
     A.*,
     CASE
       WHEN A.sah THEN CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas AND B.suara_dpm_sah), 0)
     END AS persentase_dari_suara_sah_dalam_dapil,
     CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas), 0) AS persentase_dari_seluruh_suara_dalam_dapil
-  FROM summary_no_total A
+  FROM gabungan A
   ORDER BY A.fakultas, A.sah DESC, A.suara)
 
   UNION ALL
