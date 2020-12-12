@@ -9,7 +9,7 @@ Tool tersebut berguna untuk menghasilkan program yang akan membuat _table_ dan _
 
 Berikut ini adalah direktori-direktori yang mengelompokkan file-file dalam aplikasi ini:
 
-- `data`: direktori ini berisi file sumber-sumber data dalam format CSV yang akan diimpor ke dalam database.
+- `data`: direktori ini berisi file sumber-sumber data dalam format CSV yang akan diimpor ke dalam database. Seluruh file yang dibutuhkan ada pada direktori ini harus disediakan sebelum proses impor data dilakukan (baca penjelasan dalam [Petunjuk Penggunaan | Setup | Production](../README.md#production)).
 - `docs`: direktori ini berisi file dokumentasi dalam format Markdown.
 - `helper`: direktori ini berisi kode program untuk membantu tool [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres) dalam melakukan konversi data sebelum data disimpan ke database. Kode program dalam direktori ini menggunakan bahasa pemrograman Go. Silahkan dibaca komentar-komentar yang ada dalam kode program tersebut untuk mendapatkan penjelasan lebih detail.
 - `internal`: direktori ini berisi kode-kode program yang di-_generate_ oleh [frm-adiputra/csv2postgres](https://github.com/frm-adiputra/csv2postgres) untuk melakukan pengelolaan database dan impor data. Direktori ini hanya akan ada setelah langkah inisiasi dilakukan (baca penjelasan dalam [Petunjuk Penggunaan | Inisiasi](../README.md#inisiasi)).
