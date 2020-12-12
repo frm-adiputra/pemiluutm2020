@@ -38,7 +38,7 @@ Form pemungutan suara akan dibuka dan ditutup secara manual oleh KPUM UTM.
 Aplikasi penghitung suara memiliki fungsi sebagai berikut:
 
 - Memfilter dan memverifikasi bahwa suara diberikan oleh pemilih yang ada
-dalam daftar pemilih.
+dalam daftar pemilih dan dilakukan pada rentang waktu pemungutan suara.
 - Melakukan penghitungan suara.
 - Menjamin kerahasiaan suara dan data pribadi.
 
@@ -127,3 +127,30 @@ Artinya dalam database sudah tidak ada lagi data yang perlu dirahasiakan.
 Setelah semua data berada dalam database, sumber-sumber data yang berisi data
 identitas dan data pribadi harus dihapus.
 Sehingga tidak ada lagi data rahasia yang tertinggal.
+
+### Algoritme Penentuan Suara Sah
+
+Algoritme ini dibuat berdasarkan rules yang telah dijelaskan pada bagian
+[analisis](analisis#penentuan-suara-sah)
+
+Secara berurutan dilakukan pengecekan kondisi pada data, jika menemukan kondisi
+yang tidak terpenuhi maka suara dianggap tidak sah dan kodisi berikutnya tidak
+akan dicek.
+
+Berikut ini adalah urutan pengecekan untuk pemilihan Presma:
+
+1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
+tercatat pada daftar pemilih dan alamat email menggunakan domain
+student.trunojoyo.ac.id
+2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
+3. Pengisi mengisikan Google Forms dilakukan dalam rentang waktu yang telah ditentukan
+
+Berikut ini adalah urutan pengecekan untuk pemilihan DPM:
+
+1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
+tercatat pada daftar pemilih dan alamat email menggunakan domain
+student.trunojoyo.ac.id
+2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
+3. Pengisi Google Forms mengisikan pilihan DPM pada dapil yang benar (fakultas sesuai dengan yang tercatat
+dalam daftar pemilih)
+4. Pengisi mengisikan Google Forms dalam rentang waktu yang telah ditentukan

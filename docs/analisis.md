@@ -5,7 +5,7 @@
 
 ## Rules
 
-### Penentuan suara sah
+### Penentuan Suara Sah
 
 Untuk pemilihan Presma, suara dinyatakan sah apabila:
 
