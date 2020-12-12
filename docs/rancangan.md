@@ -131,26 +131,39 @@ Sehingga tidak ada lagi data rahasia yang tertinggal.
 ### Algoritme Penentuan Suara Sah
 
 Algoritme ini dibuat berdasarkan rules yang telah dijelaskan pada bagian
-[analisis](analisis#penentuan-suara-sah)
+[analisis](analisis#penentuan-suara-sah).
+Apabila salah satu kondisi dari rules tersebut tidak terpenuhi, maka suara akan
+dianggap tidak sah.
+Dapat pula terjadi, suatu suara dianggap tidak sah karena tidak memenuhi lebih
+dari satu kondisi.
+Artinya penyebab tidak sahnya sebuah suara dapat disebabkan oleh lebih dari satu
+alasan.
+Untuk memudahkan pengamatan dan pengelompokan data suara yang tidak sah, maka
+setiap suara yang tidak sah akan disertai dengan informasi mengapa suara
+tersebut tidak sah.
 
-Secara berurutan dilakukan pengecekan kondisi pada data, jika menemukan kondisi
-yang tidak terpenuhi maka suara dianggap tidak sah dan kodisi berikutnya tidak
-akan dicek.
+Algoritme ini dirancang untuk melakukan pengecekan persyaratan sahnya suara
+berdasarkan urutan tertentu.
+Apabila pada suatu langkah dalam urutan tersebut kondisinya tidak terpenuhi,
+maka kondisi tersebut akan dijadikan alasan tidak sahnya suara dan pengecekan
+pada langkah berikutnya tidak perlu dilakukan.
 
 Berikut ini adalah urutan pengecekan untuk pemilihan Presma:
 
-1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
-tercatat pada daftar pemilih dan alamat email menggunakan domain
-student.trunojoyo.ac.id
-2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
-3. Pengisi mengisikan Google Forms dilakukan dalam rentang waktu yang telah ditentukan
+1. Pemilih (pengisi Google Forms) tercatat dalam daftar pemilih, dibuktikan
+dengan NIM pada alamat email tercatat pada daftar pemilih dan alamat email yang
+digunakan berdomain student.trunojoyo.ac.id
+2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data
+verifikasi
+3. Pengisi mengisikan Google Forms dalam rentang waktu yang telah ditentukan
 
 Berikut ini adalah urutan pengecekan untuk pemilihan DPM:
 
-1. Pengisi Google Forms terdaftar dalam daftar pemilih. NIM pada alamat email
-tercatat pada daftar pemilih dan alamat email menggunakan domain
-student.trunojoyo.ac.id
-2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data verifikasi
-3. Pengisi Google Forms mengisikan pilihan DPM pada dapil yang benar (fakultas sesuai dengan yang tercatat
-dalam daftar pemilih)
+1. Pemilih (pengisi Google Forms) tercatat dalam daftar pemilih, dibuktikan
+dengan NIM pada alamat email tercatat pada daftar pemilih dan alamat email yang
+digunakan berdomain student.trunojoyo.ac.id
+2. Data verifikasi yang diisikan sama dengan data yang ada pada sumber data
+verifikasi
+3. Pemilih mengisikan pilihan DPM pada dapil yang benar (fakultas sesuai dengan
+yang tercatat dalam daftar pemilih)
 4. Pengisi mengisikan Google Forms dalam rentang waktu yang telah ditentukan

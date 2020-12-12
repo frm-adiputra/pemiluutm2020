@@ -1,4 +1,4 @@
-# Penghitung Suara | Pemilu Mahasiswa UTM
+# Aplikasi Penghitung Suara | Pemilu Mahasiswa UTM
 
 Aplikasi ini adalah aplikasi penghitung suara yang digunakan dalam Pemilu mahasiswa UTM 2020.
 
@@ -21,6 +21,7 @@ Dokumen-dokumen lainnya terkait aplikasi ini dapat dilihat melalui link berikut:
 
 - [Analisis](docs/analisis.md)
 - [Rancangan](docs/rancangan.md)
+- [Implementasi](docs/implementasi.md)
 - [Prosedur Live Streaming](docs/live-streaming.md)
 
 ## Requirements
@@ -29,7 +30,9 @@ Dokumen-dokumen lainnya terkait aplikasi ini dapat dilihat melalui link berikut:
 - Node 14+
 - PostgreSQL 9+
 
-## Setup
+## Petunjuk Penggunaan
+
+### Setup
 
 Clone repository ini.
 Buat file `db.yaml` pada project root.
@@ -38,7 +41,9 @@ File `db.yaml` berisi konfigurasi koneksi database, dengan contoh pengisiannya d
 Secara default, aplikasi ini berjalan dalam mode testing.
 Untuk menjalankan dalam mode production, baca penjelasan pada bab [Production](#production).
 
-### Testing/Ujicoba
+Buat _schema_ pada database dengan nama `tahap1`.
+
+#### Testing/Ujicoba
 
 Selama berjalan dalam mode testing, aplikasi ini akan menggunakan data-data yang ada pada folder `test-data`.
 Folder `test-data` pada awalnya tidak akan berisi seluruh data yang dibutuhkan untuk testing.
@@ -53,7 +58,7 @@ npm install
 npm run gen
 ```
 
-### Production
+#### Production
 
 Untuk menjalankan dalam mode production ada beberapa hal yang harus dilakukan.
 
@@ -87,7 +92,7 @@ Edit file-file berikut ini dengan cara mengganti isian pada field `csv` yang awa
 
 Setelah melakukan hal-hal di atas, silahkan melanjutkan ke proses inisiasi.
 
-## Inisiasi
+### Inisiasi
 
 Sebelum melakukan langkah inisiasi, ikuti terlebih dahulu langkah-langkah yang ada pada bab [Setup](#setup) sesuai dengan mode eksekusi yang diinginkan (testing atau production).
 
@@ -104,13 +109,65 @@ go generate .
 go run . --dry-run allUp
 ```
 
-## Impor Data
+### Impor Data
 
 Jalankan perintah berikut ini untuk mengimpor data ke dalam database.
-Apabila database telah berisi data maka data yang ada akan dihapus terlebih dahulu.
+_Database schema_ yang menjadi target dari impor data ini adalah _schema_ dengan
+nama `tahap1` yang ada pada database yang ditentukan dalam file `db.yaml`.
+Apabila database telah berisi data maka, data yang ada akan dihapus terlebih
+dahulu.
 
 ```bash
 go run . allUp
 ```
 
-Setelah menjalankan perintah di atas, semua data akan berada dalam database dan hasil penghitungan dapat dilihat melalui berbagai _view_ yang ada.
+Setelah menjalankan perintah di atas, semua data akan berada dalam database dan
+hasil penghitungan dapat dilihat melalui berbagai _view_ yang ada.
+
+### Hasil Penghitungan
+
+Setelah impor data dilakukan, maka hasil penghitungan akan dapat dilihat pada
+beberapa _database view_ berikut ini (dalam _schema_ `tahap1`):
+
+#### `vw_pilihan`
+
+`vw_pilihan` adalah _view_ yang mempresentasikan data pilihan setiap pemilih.
+Dalam _view_ ini juga ditampilkan status dari setiap persyaratan sahnya suara.
+Berikut ini adalah penjelasan setiap _field_ yang ada di dalamnya:
+
+- `suara_presma_sah`: akan bernilai `true` bila semua persyaratan suara sah
+untuk pilihan Presma terpenuhi.
+- `alasan_suara_presma_tidak_sah`: berisi alasan suara pilihan Presma ini
+dianggap tidak sah.
+- `suara_dpm_sah`: akan bernilai `true` bila semua persyaratan suara sah
+untuk pilihan Presma terpenuhi.
+- `alasan_suara_dpm_tidak_sah`: berisi alasan suara pilihan DPM ini dianggap
+tidak sah.
+- `waktu`: waktu pemilih men-submit pilihannya.
+- `dalam_waktu_pemungutan`: akan bernilai `true` jika pemilih men-submit
+pilihannya dalam rentang waktu yang ditentukan.
+- `nim_email_hashed`: nilai _hash_ dari alamat email pemilih (email mahasiswa adalah NIM dengan domain @student.trunojoyo.ac.id)
+- `jenis_email`: berisi nilai `student` apabila domain email yang digunakan
+pemilih adalah domain email untuk student. Selain itu akan bernilai `bukan student`
+- `input_fakultas`: nama fakultas yang diinputkan oleh pemilih (oleh aplikasi
+dikonversi menjadi singkatannya).
+- `fakultas_tercatat`: nama fakultas yang tercatat pada daftar pemilih (oleh
+aplikasi dikonversi menjadi singkatannya).
+- `terdaftar`: akan bernilai `true` jika dan hanya jika NIM tercatat pada daftar pemilih dan email yang digunakan adalah email student.
+- `fakultas_benar`: akan bernilai `true` jika dan hanya jika fakultas yang diinputkan oleh pemilih sama dengan fakultas yang tercatat pada daftar pemilih.
+- `input_verifikasi_hashed`: berisi data yang diinputkan oleh pemilih untuk kebutuhan verifikasi yang telah di-_hash_.
+- `sumber_verifikasi_hashed`: berisi data yang disediakan oleh KPUM untuk kebutuhan verifikasi pemilih (data telah di-_hash_).
+- `verified`: akan bernilai `true` jika dan hanya jika `input_verifikasi_hashed` berisi data yang sama dengan `sumber_verifikasi_hashed`.
+- `dapil_sesuai`: akan bernilai `true` jika dan hanya jika pemilih memberikan suara pilihan DPM-nya pada dapil yang sesuai dengan fakultas yang tercatat pada daftar pemilih.
+- `pilihan_presma`: berisi paslon Presma yang dipilih.
+- `pilihan_dpm_fh`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_feb`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_fp`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_ft`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_fisib`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_fip`: berisi calon DPM yang dipilih.
+- `pilihan_dpm_fkis`: berisi calon DPM yang dipilih.
+
+
+- `vw_hasil_presma`
+- `vw_hasil_dpm`

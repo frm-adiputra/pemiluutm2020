@@ -10,7 +10,6 @@ sql: |
       -- Konversi tipe data waktu dari string ke timestamp
       TO_TIMESTAMP(waktu_str, 'YYYY/MM/DD HH:MI:SS AM') AS waktu,
       jenis_email,
-      persetujuan,
       fakultas,
       input_verifikasi_hashed,
       pilihan_presma,
@@ -45,7 +44,6 @@ sql: |
 
       A.nim_email_hashed,
       B.jenis_email,
-      B.persetujuan,
       B.fakultas AS input_fakultas,
       C.fakultas AS fakultas_tercatat,
 
