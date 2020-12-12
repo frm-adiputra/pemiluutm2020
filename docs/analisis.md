@@ -3,12 +3,6 @@
 > DOKUMEN INI ADALAH DOKUMEN PENDUKUNG PENGEMBANGAN PERANGKAT LUNAK.
 > ISI DARI DOKUMEN INI HANYA UNTUK KEPENTINGAN PENGEMBANGAN PERANGKAT LUNAK.
 
-## Latar Belakang
-
-## Masalah
-
-## Alur
-
 ## Rules
 
 ### Penentuan suara sah
@@ -28,4 +22,5 @@ Untuk pemilihan DPM, suara dinyatakan sah apabila:
 
 ### Kerahasiaan
 
-Suara dari setiap pemilih harus dijamin kerahasiaannya.
+Suara dari setiap pemilih harus dijamin kerahasiaannya, termasuk juga data-data
+pribadi pemilih.
