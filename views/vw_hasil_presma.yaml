@@ -52,5 +52,9 @@ sql: |
 
   SELECT
     A.*,
-    CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan), 0) AS persentase
+    CASE
+      WHEN A.sah THEN CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan WHERE suara_presma_sah), 0)
+      ELSE NULL
+    END AS persentase_dari_suara_sah,
+    CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan), 0) AS persentase_dari_seluruh_suara
   FROM summary_no_total A

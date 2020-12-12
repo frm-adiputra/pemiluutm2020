@@ -122,7 +122,10 @@ sql: |
 
   (SELECT
     A.*,
-    CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas), 0) AS persentase
+    CASE
+      WHEN A.sah THEN CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas AND B.suara_dpm_sah), 0)
+    END AS persentase_dari_suara_sah_dalam_dapil,
+    CAST((A.jumlah * 100) AS FLOAT) / NULLIF((SELECT COUNT(*) FROM tahap1.vw_pilihan B WHERE B.fakultas_tercatat = A.fakultas), 0) AS persentase_dari_seluruh_suara_dalam_dapil
   FROM summary_no_total A
   ORDER BY A.fakultas, A.sah DESC, A.suara)
 
@@ -137,4 +140,5 @@ sql: |
       FROM pilihan_normalized
       WHERE alasan_suara_dpm_tidak_sah = '(a) Tidak terdaftar dalam daftar pemilih'
     ) AS jumlah,
-    NULL AS persentase)
+    NULL AS persentase_dari_suara_sah_dalam_dapil,
+    NULL AS persentase_dari_seluruh_suara_dalam_dapil)
