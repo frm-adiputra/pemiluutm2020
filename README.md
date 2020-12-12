@@ -133,6 +133,8 @@ beberapa _database view_ berikut ini (dalam _schema_ `tahap1`):
 
 `vw_pilihan` adalah _view_ yang mempresentasikan data pilihan setiap pemilih.
 Dalam _view_ ini juga ditampilkan status dari setiap persyaratan sahnya suara.
+_View_ ini juga diekspor ke dalam file dalam format CSV dengan nama `out/vw_pilihan.csv`.
+
 Berikut ini adalah penjelasan setiap _field_ yang ada di dalamnya:
 
 - `suara_presma_sah`: akan bernilai `true` bila semua persyaratan suara sah
@@ -168,6 +170,41 @@ aplikasi dikonversi menjadi singkatannya).
 - `pilihan_dpm_fip`: berisi calon DPM yang dipilih.
 - `pilihan_dpm_fkis`: berisi calon DPM yang dipilih.
 
+#### `vw_hasil_presma`
 
-- `vw_hasil_presma`
-- `vw_hasil_dpm`
+_View_ ini mempresentasikan data hasil penghitungan suara untuk Presma.
+Dalam _view_ ini akan ditampilkan dua kategori suara, yaitu suara sah dan suara
+tidak sah.
+Pada kategori suara sah, akan ditunjukkan daftar nama paslon serta jumlah dan persentase suaranya.
+Pada kategori suara tidak sah, akan ditunjukkan daftar alasan serta jumlah dan persentase suaranya.
+_View_ ini juga diekspor ke dalam file dalam format CSV dengan nama `out/vw_hasil_presma.csv`.
+
+Berikut ini adalah penjelasan setiap _field_ yang ada di dalamnya:
+
+- `sah`: bernilai `true` untuk kategori suara sah, dan `false` untuk kategori suara tidak sah.
+- `suara`: untuk kategori suara sah akan berisi nama-nama paslon dan untuk kategori suara tidak sah berisi alasan suara tidak sah.
+- `jumlah`: jumlah suara yang masuk dalam kategori
+- `persentase_dari_suara_sah`: persentase jumlah suara bila dihitung berdasarkan jumlah suara sah.
+- `persentase_dari_seluruh_suara`: persentase jumlah suara bila dihitung berdasarkan jumlah total suara (baik sah maupun tidak).
+
+#### `vw_hasil_dpm`
+
+_View_ ini mempresentasikan data hasil penghitungan suara untuk DPM.
+Dalam _view_ ini, untuk setiap dapil akan ditampilkan dua kategori suara, yaitu suara sah dan suara
+tidak sah.
+Pada kategori suara sah, akan ditunjukkan daftar nama calon serta jumlah dan persentase suaranya.
+Pada kategori suara tidak sah, akan ditunjukkan daftar alasan serta jumlah dan persentase suaranya.
+
+Khusus untuk kategori suara tidak sah dengan alasan "(a) Tidak terdaftar dalam daftar pemilih", tidak akan ditampilkan per fakultas.
+Karena pemilih yang tidak terdaftar tidak dapat diverifikasi kebenaran dapilnya.
+
+_View_ ini juga diekspor ke dalam file dalam format CSV dengan nama `out/vw_hasil_dpm.csv`.
+
+Berikut ini adalah penjelasan setiap _field_ yang ada di dalamnya:
+
+- `fakultas`: dapil fakultas
+- `sah`: bernilai `true` untuk kategori suara sah, dan `false` untuk kategori suara tidak sah.
+- `suara`: untuk kategori suara sah akan berisi nama-nama calon dan untuk kategori suara tidak sah berisi alasan suara tidak sah.
+- `jumlah`: jumlah suara yang masuk dalam kategori
+- `persentase_dari_suara_sah_dalam_dapil`: persentase jumlah suara bila dihitung berdasarkan jumlah suara sah dalam dapil.
+- `persentase_dari_seluruh_suara_dalam_dapil`: persentase jumlah suara bila dihitung berdasarkan jumlah total suara dalam dapil (baik sah maupun tidak).
