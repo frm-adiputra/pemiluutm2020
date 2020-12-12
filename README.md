@@ -127,7 +127,10 @@ hasil penghitungan dapat dilihat melalui berbagai _view_ yang ada.
 ### Hasil Penghitungan
 
 Setelah impor data dilakukan, maka hasil penghitungan akan dapat dilihat pada
-beberapa _database view_ berikut ini (dalam _schema_ `tahap1`):
+_view_ dalam database atau pada hasil ekspor dari _view_ tersebut yang tersimpan
+dalam folder `out`.
+
+Berikut ini adalah _database view_ hasil penghitungan (dalam _schema_ `tahap1`):
 
 #### `vw_pilihan`
 
