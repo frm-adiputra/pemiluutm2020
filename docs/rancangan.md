@@ -67,7 +67,7 @@ penghitungan harus dimasukkan/diimpor ke dalam database.
 - Penghitungan dilakukan melalui fungsi-fungsi aggregasi pada database dan
 disajikan dalam bentuk _database view_.
 - Aplikasi yang akan menampilkan hasil penghitungan cukup mengakses
-_database view_ yang ada
+_database view_ yang disediakan.
 
 ### Sumber-Sumber Data
 
